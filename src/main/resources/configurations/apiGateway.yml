@@ -1,0 +1,30 @@
+eureka:
+  client:
+    register-with-eureka: false
+server:
+  port: 8222
+spring:
+  application:
+    name: ApiGateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: ParcelService
+          uri: http://localhost:1111
+          predicates:
+            - Path=api/parcel/**
+        - id: VendorService
+          uri: http://localhost:9090
+          predicates:
+            - Path=/vendor/**
+        - id: DeliveryServices
+          uri: http://localhost:9091
+          predicates:
+            - Path=/delivery/**
+management:
+  tracing:
+    sampling:
+      probability: 1.0
